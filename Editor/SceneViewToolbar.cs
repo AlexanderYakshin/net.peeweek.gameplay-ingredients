@@ -11,7 +11,14 @@ namespace GameplayIngredients.Editor
         public delegate void SceneViewToolbarDelegate(SceneView sceneView);
 
         public static event SceneViewToolbarDelegate OnSceneViewToolbarGUI;
-
+        
+        public static bool ShowToolbar = false;
+        [MenuItem("Window/Gameplay Ingredients/Toggle Toolbar Visibility", priority = 0)]
+        public static void ToggleToolbarVisibility()
+        {
+            ShowToolbar = !ShowToolbar;
+        }
+        
         [InitializeOnLoadMethod]
         static void Initialize()
         {
@@ -20,6 +27,9 @@ namespace GameplayIngredients.Editor
 
         private static void OnSceneGUI(SceneView sceneView)
         {
+            if (!ShowToolbar)
+                return;
+            
             var r = new Rect(Vector2.zero, new Vector2(sceneView.position.width,24));
             Handles.BeginGUI();
             using (new GUILayout.AreaScope(r))
